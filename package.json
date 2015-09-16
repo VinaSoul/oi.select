@@ -4,7 +4,7 @@
     "version": "0.2.12",
     "repository": {
         "type": "git",
-        "url": "git://github.com/tamtakoe/oi.select.git"
+        "url": "git://github.com/phatpham9/oi.select.git"
     },
     "devDependencies": {
         "gulp": "3.9.0",
