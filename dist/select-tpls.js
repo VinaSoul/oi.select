@@ -393,7 +393,7 @@ angular.module('oi.select')
                     editItem        = options.editItem === true || options.editItem === 'correct' ? 'oiSelectEditItem' : options.editItem,
                     editItemCorrect = options.editItem === 'correct',
                     editItemFn      = editItem ? $injector.get(editItem) : function() {return ''},
-                    newItemFn;
+                    newItemFn, removeItemFn;
 
                 match = options.searchFilter.split(':');
                 var searchFilter = $filter(match[0]),
@@ -409,11 +409,16 @@ angular.module('oi.select')
 
                 if (options.newItemFn) {
                     newItemFn = $parse(options.newItemFn);
-
                 } else {
                     newItemFn = function(scope, locals) {
                         return (optionsFn(locals) || {}).newItemModel || locals.$query;
                     };
+                }
+
+                if (options.removeItemFn) {
+                    removeItemFn = $parse(options.removeItemFn);
+                } else {
+                    removeItemFn = function() {};
                 }
 
                 if (options.cleanModel && (!editItem || editItemCorrect)) {
@@ -594,6 +599,7 @@ angular.module('oi.select')
                     if (multiple && options.closeList) {
                         resetMatches({query: true});
                     }
+                    removeItemFn(scope.$parent, {$removedItem: removedItem});
                 };
 
                 scope.setSelection = function(index) {
